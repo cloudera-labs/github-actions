@@ -76,9 +76,10 @@ jobs:
 
       - name: Execute antsibull-docs with --fail-on-error
         run: |
-          echo "Building ${{ inputs.collection-namespace}}.${{ inputs.collection-name }}"
+          echo "## :rocket: Building ${{ inputs.collection-namespace}}.${{ inputs.collection-name }}" >> $GITHUB_STEP_SUMMARY
           mkdir -p temp-rst
           chmod og-w temp-rst
+          echo "~~~bash" >> $GITHUB_STEP_SUMMARY
           antsibull-docs \
             --config-file antsibull-docs.cfg \
             collection \
@@ -86,7 +87,12 @@ jobs:
             --squash-hierarchy \
             --dest-dir temp-rst \
             --fail-on-error \
-            ${{ inputs.collection-namespace }}.${{ inputs.collection-name }}
+            ${{ inputs.collection-namespace }}.${{ inputs.collection-name }} \
+            >> $GITHUB_STEP_SUMMARY 2>&1 \
+            && echo "Success! No errors found." \
+            >> $GITHUB_STEP_SUMMARY
+          echo "~~~" >> $GITHUB_STEP_SUMMARY
+           
         working-directory: ${{ steps.vars.outputs.checkout-path }}/docsbuild
 
       - name: Upload antsibull-doc log artifact
