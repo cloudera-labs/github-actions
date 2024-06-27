@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Configure environment
         id: vars
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             name = process.env.GITHUB_REPOSITORY.split('/')[1]
@@ -55,7 +55,7 @@ jobs:
             core.setOutput('checkout-path', checkoutPath)
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: 3.11
 
@@ -66,7 +66,7 @@ jobs:
         run: ansible --version
 
       - name: Checkout project
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ steps.vars.outputs.checkout-path }}
 
@@ -97,7 +97,7 @@ jobs:
 
       - name: Upload antsibull-doc log artifact
         if: always() && inputs.antsibull-log-upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: ${{ steps.vars.outputs.checkout-path }}/docsbuild/antsibull.log
           name: antsibull-${{ github.sha }}.log
