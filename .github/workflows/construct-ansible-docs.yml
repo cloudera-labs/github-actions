@@ -38,7 +38,7 @@ jobs:
             name = process.env.GITHUB_REPOSITORY.split('/')[1]
             path = name.replace('.', '/')
 
-            core.exportVariable('ANSIBLE_COLLECTIONS_PATHS', process.env.GITHUB_WORKSPACE)
+            core.exportVariable('ANSIBLE_COLLECTIONS_PATH', process.env.GITHUB_WORKSPACE)
 
             const checkoutPath = `ansible_collections/${path}`
             core.setOutput('checkout-path', checkoutPath)
